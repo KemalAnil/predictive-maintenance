@@ -1,141 +1,83 @@
-🚀 Predictive Maintenance with C-MAPSS (FD001–FD004)
+# Predictive Maintenance with C-MAPSS (FD001–FD004)
 
-This repository implements an end-to-end Remaining Useful Life (RUL) prediction workflow using the NASA C-MAPSS turbofan engine degradation datasets.
-It includes preprocessing, leakage-free splitting, normalization, model training, evaluation, and visualization.
+This repository implements an end-to-end Remaining Useful Life (RUL) prediction pipeline using the NASA C-MAPSS turbofan engine degradation datasets.
 
-Supported datasets: FD001, FD002, FD003, FD004
+Supported dataset variants: **FD001, FD002, FD003, FD004**
 
-📂 Repository Structure
+---
+
+## Repository Structure
+
+```text
 predictive-maintenance/
-│
 ├── notebooks/
 │   ├── Baseline_CMAPSS_FD001.ipynb
 │   ├── Baseline_CMAPSS_FD002.ipynb
 │   ├── Baseline_CMAPSS_FD003.ipynb
 │   └── Baseline_CMAPSS_FD004.ipynb
-│
 ├── data/
-│   └── CMAPSS/ (place dataset files here)
-│
+│   └── CMAPSS/
 ├── requirements.txt
 └── README.md
+```
 
-📘 Included Notebooks
+## Included Notebooks
 
-Each notebook contains a complete baseline pipeline for one dataset variant.
+### FD001 — Single fault, single operating condition
+**File:** `notebooks/Baseline_CMAPSS_FD001.ipynb`
 
-FD001 — Single fault, single operating condition
+- Load dataset  
+- Compute RUL + warning labels  
+- Leakage-free split (per engine)  
+- Z-score scaling  
+- RandomForest regression + classification  
+- Evaluation metrics: RMSE, R², precision, recall, F1, confusion matrix  
 
-notebooks/Baseline_CMAPSS_FD001.ipynb
+---
 
-Load FD001 dataset
+### FD002 — Single fault, multiple operating conditions
+**File:** `notebooks/Baseline_CMAPSS_FD002.ipynb`
 
-Compute RUL + early warning labels
+- Same pipeline as FD001  
+- Cluster-based normalization for 6 operating regimes  
 
-Leakage-free split by engine
+---
 
-Z-score scaling
+### FD003 — Multiple faults, single operating condition
+**File:** `notebooks/Baseline_CMAPSS_FD003.ipynb`
 
-RandomForest (regression + classification)
+- Two fault modes  
+- Same RUL + early-warning labeling  
 
-RMSE, R², confusion matrix, precision/recall/F1
+---
 
-FD002 — Single fault, multiple operating conditions
+### FD004 — Multiple faults, multiple operating conditions
+**File:** `notebooks/Baseline_CMAPSS_FD004.ipynb`
 
-notebooks/Baseline_CMAPSS_FD002.ipynb
+- Multi-fault + multi-regime  
+- Combines FD002 and FD003 preprocessing logic  
 
-Same pipeline as FD001
+---
 
-Cluster-based normalization for 6 operating regimes
+## Baseline Pipeline Overview
 
-FD003 — Multiple faults, single operating condition
+All notebooks include:
 
-notebooks/Baseline_CMAPSS_FD003.ipynb
-
-Handles two fault modes
-
-Same preprocessing + modeling flow
-
-FD004 — Multiple faults, multiple operating conditions
-
-notebooks/Baseline_CMAPSS_FD004.ipynb
-
-Multi-fault + multi-regime
-
-Combines FD002 and FD003 preprocessing techniques
-
-📊 Baseline Pipeline Overview
-
-All notebooks implement:
-
-Load raw C-MAPSS sensor time-series
-
-Clean and format run-to-failure data
-
-Compute RUL targets
-
-Create early-warning labels (e.g., RUL ≤ 30)
-
-Split engines without leakage
-
-Normalize features
-
-Train:
-
-RUL regression model
-
-Warning classifier
-
-Evaluate using:
-
-RMSE, MAE, R²
-
-Confusion matrix
-
-Precision / Recall / F1
-
-▶️ How to Run
-1. Install Python 3.10+
-2. Install dependencies
-pip install -r requirements.txt
-
-3. Download the NASA C-MAPSS dataset
-
-Place these files into:
-
-data/CMAPSS/
+- Load and clean C-MAPSS time-series data  
+- Compute Remaining Useful Life (RUL)  
+- Create early-warning labels (e.g., RUL ≤ 30)  
+- Leakage-free train/test split by engine ID  
+- Normalize features (z-score or cluster-wise)  
+- Train RandomForest models  
+- Evaluate:
+  - RMSE / MAE  
+  - R²  
+  - Precision / Recall / F1  
+  - Confusion matrix  
+- Visualize:
+  - Feature importance  
+  - RUL predictions vs ground truth  
+  - Warning classification results  
 
 
-For example:
 
-train_FD001.txt
-test_FD001.txt
-RUL_FD001.txt
-...
-
-4. Run any notebook
-
-Open using Jupyter Notebook or VS Code:
-
-notebooks/Baseline_CMAPSS_FD001.ipynb
-
-
-and similarly for FD002–FD004.
-
-🧠 Dataset Overview
-Dataset	Operating Conditions	Fault Modes	Difficulty
-FD001	1	1	Easy
-FD002	6	1	Medium
-FD003	1	2	Medium
-FD004	6	2	Hard
-📌 Future Work
-
-LSTM / GRU deep learning models
-
-CNN-based time-series models
-
-Unified Python training script
-
-Model comparison dashboards
-
-Deployment-ready RUL inference API
